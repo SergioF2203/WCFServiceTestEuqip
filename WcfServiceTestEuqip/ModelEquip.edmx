@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище EquipmentsModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Depts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeptName" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Equip">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ManufacturesId" Type="int" />
+          <Property Name="EuqipName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EuqipTitle" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EuqipPartNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="EquipSerialNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EquipPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DeptsId" Type="int" />
+          <Property Name="DateIn" Type="nchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Manufactures">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ManufName" Type="nchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Equip_Depts">
+          <End Role="Depts" Type="Self.Depts" Multiplicity="0..1" />
+          <End Role="Equip" Type="Self.Equip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Equip">
+              <PropertyRef Name="DeptsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Equip_Manufactures">
+          <End Role="Manufactures" Type="Self.Manufactures" Multiplicity="0..1" />
+          <End Role="Equip" Type="Self.Equip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufactures">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Equip">
+              <PropertyRef Name="ManufacturesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище EquipmentsModelContainer">
+          <EntitySet Name="Depts" EntityType="Self.Depts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Equip" EntityType="Self.Equip" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Manufactures" EntityType="Self.Manufactures" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Equip_Depts" Association="Self.FK_Equip_Depts">
+            <End Role="Depts" EntitySet="Depts" />
+            <End Role="Equip" EntitySet="Equip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Equip_Manufactures" Association="Self.FK_Equip_Manufactures">
+            <End Role="Manufactures" EntitySet="Manufactures" />
+            <End Role="Equip" EntitySet="Equip" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EquipmentsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DeptEntity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeptName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Equip" Relationship="Self.FK_Equip_Depts" FromRole="Depts" ToRole="Equip" />
+        </EntityType>
+        <EntityType Name="EquipEntity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ManufacturesId" Type="Int32" />
+          <Property Name="EuqipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EuqipTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EuqipPartNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EquipSerialNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EquipPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DeptsId" Type="Int32" />
+          <Property Name="DateIn" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Depts" Relationship="Self.FK_Equip_Depts" FromRole="Equip" ToRole="Depts" />
+          <NavigationProperty Name="Manufactures" Relationship="Self.FK_Equip_Manufactures" FromRole="Equip" ToRole="Manufactures" />
+        </EntityType>
+        <EntityType Name="ManufactureEntity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ManufName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Equip" Relationship="Self.FK_Equip_Manufactures" FromRole="Manufactures" ToRole="Equip" />
+        </EntityType>
+        <Association Name="FK_Equip_Depts">
+          <End Role="Depts" Type="EquipmentsModel.DeptEntity" Multiplicity="0..1" />
+          <End Role="Equip" Type="EquipmentsModel.EquipEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Equip">
+              <PropertyRef Name="DeptsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Equip_Manufactures">
+          <End Role="Manufactures" Type="EquipmentsModel.ManufactureEntity" Multiplicity="0..1" />
+          <End Role="Equip" Type="EquipmentsModel.EquipEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufactures">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Equip">
+              <PropertyRef Name="ManufacturesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EquipmentsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Depts" EntityType="EquipmentsModel.DeptEntity" />
+          <EntitySet Name="Equip" EntityType="EquipmentsModel.EquipEntity" />
+          <EntitySet Name="Manufactures" EntityType="EquipmentsModel.ManufactureEntity" />
+          <AssociationSet Name="FK_Equip_Depts" Association="Self.FK_Equip_Depts">
+            <End Role="Depts" EntitySet="Depts" />
+            <End Role="Equip" EntitySet="Equip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Equip_Manufactures" Association="Self.FK_Equip_Manufactures">
+            <End Role="Manufactures" EntitySet="Manufactures" />
+            <End Role="Equip" EntitySet="Equip" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище EquipmentsModelContainer" CdmEntityContainer="EquipmentsEntities">
+          <EntitySetMapping Name="Depts">
+            <EntityTypeMapping TypeName="EquipmentsModel.DeptEntity">
+              <MappingFragment StoreEntitySet="Depts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Equip">
+            <EntityTypeMapping TypeName="EquipmentsModel.EquipEntity">
+              <MappingFragment StoreEntitySet="Equip">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ManufacturesId" ColumnName="ManufacturesId" />
+                <ScalarProperty Name="EuqipName" ColumnName="EuqipName" />
+                <ScalarProperty Name="EuqipTitle" ColumnName="EuqipTitle" />
+                <ScalarProperty Name="EuqipPartNumber" ColumnName="EuqipPartNumber" />
+                <ScalarProperty Name="EquipSerialNumber" ColumnName="EquipSerialNumber" />
+                <ScalarProperty Name="EquipPrice" ColumnName="EquipPrice" />
+                <ScalarProperty Name="DeptsId" ColumnName="DeptsId" />
+                <ScalarProperty Name="DateIn" ColumnName="DateIn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Manufactures">
+            <EntityTypeMapping TypeName="EquipmentsModel.ManufactureEntity">
+              <MappingFragment StoreEntitySet="Manufactures">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ManufName" ColumnName="ManufName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
